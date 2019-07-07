@@ -1,0 +1,9 @@
+<div class="container">
+    <div class="row d-flex justify-content-end">
+        <div class="wrapper">
+            <span *ngFor="let heart of hearts">
+                <img [src]="heart.getHeart()">
+            </span>
+        </div>
+    </div>
+</div>
