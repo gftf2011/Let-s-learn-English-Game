@@ -1,2 +1,4 @@
 <app-top></app-top>
-<app-painel (endgameEvent)="endgameEvent($event)"></app-painel>
+<div *ngIf="!gameHasEnded">
+    <app-painel (endgameEvent)="endgameEvent($event)"></app-painel>
+</div>
