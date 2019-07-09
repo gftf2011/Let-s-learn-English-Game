@@ -1,16 +1,17 @@
-import { Component, OnInit, Output, EventEmitter  } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy  } from '@angular/core';
 
 import { StringUtil } from '../infraestructure/StringUtil';
 import { Sentence } from '../models/sentence.model';
 import { SENTENCES } from './sentence-mock';
 import { Heart } from '../models/heart.model';
+import { EndGame } from '../models/endGame.model';
 
 @Component({
   selector: 'app-painel',
   templateUrl: './painel.component.html',
   styleUrls: ['./painel.component.css']
 })
-export class PainelComponent implements OnInit {
+export class PainelComponent implements OnInit , OnDestroy{
 
   public readonly INSTRUCTION:string = "Traduza a frase abaixo"
 
@@ -20,10 +21,10 @@ export class PainelComponent implements OnInit {
   public hearts:Array<Heart>
 
   @Output()
-  public endgameEvent: EventEmitter<string> = new EventEmitter()
+  public endgameEvent: EventEmitter<EndGame> = new EventEmitter()
 
-  private readonly LOSE:string = "You LOSE!"
-  private readonly WIN:string = "You WIN!"
+  private readonly LOSE:string = "Você perdeu!"
+  private readonly WIN:string = "Você ganhou!"
 
   private answer:string
 
@@ -39,6 +40,10 @@ export class PainelComponent implements OnInit {
     this.wrongAnswerCounter = 0
     this.initHearts()
     this.setSentencesToPascalCase()
+  }
+
+  ngOnDestroy(){
+
   }
 
   public checkAnswer(): void {
@@ -89,9 +94,9 @@ export class PainelComponent implements OnInit {
 
   private winingCondition(): void {
     if (this.wrongAnswerCounter === 3) {
-      this.endgameEvent.emit(this.LOSE)
+      this.endgameEvent.emit(new EndGame(this.LOSE, true))
     } else if (this.currentAnswerDisplayed === this.sentences.length) {
-      this.endgameEvent.emit(this.WIN)
+      this.endgameEvent.emit(new EndGame(this.WIN, true))
     } else {
       return
     }
