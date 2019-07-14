@@ -8,13 +8,27 @@ import { EndGame } from './models/endGame.model';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  public message:string
+  private message:string
+  private emoji:string
 
-  public gameHasEnded:boolean
+  private gameHasEnded:boolean
 
   public endgameEvent(endGame: EndGame): void {
     this.message = endGame.getMessage()
+    this.emoji = endGame.getEmoji()
     this.gameHasEnded = endGame.getGameHasEnded()
+  }
+
+  public get getGameHasEnded():boolean {
+    return this.gameHasEnded
+  }
+
+  public get getMessage():string {
+    return this.message
+  }
+
+  public get getEmoji():string {
+    return this.emoji
   }
 
 }

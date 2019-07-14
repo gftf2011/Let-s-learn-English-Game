@@ -25,6 +25,8 @@ export class PainelComponent implements OnInit , OnDestroy{
 
   private readonly LOSE:string = "Você perdeu!"
   private readonly WIN:string = "Você ganhou!"
+  private readonly HAPPY_EMOJI:string = ":)"
+  private readonly SAD_EMOJI:string = ":("
 
   private answer:string
 
@@ -94,9 +96,9 @@ export class PainelComponent implements OnInit , OnDestroy{
 
   private winingCondition(): void {
     if (this.wrongAnswerCounter === 3) {
-      this.endgameEvent.emit(new EndGame(this.LOSE, true))
+      this.endgameEvent.emit(new EndGame(this.LOSE, this.SAD_EMOJI, true))
     } else if (this.currentAnswerDisplayed === this.sentences.length) {
-      this.endgameEvent.emit(new EndGame(this.WIN, true))
+      this.endgameEvent.emit(new EndGame(this.WIN, this.HAPPY_EMOJI, true))
     } else {
       return
     }
