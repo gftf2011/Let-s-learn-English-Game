@@ -96,9 +96,9 @@ export class PainelComponent implements OnInit , OnDestroy{
 
   private winingCondition(): void {
     if (this.wrongAnswerCounter === 3) {
-      this.endgameEvent.emit(new EndGame(this.LOSE, this.SAD_EMOJI, true))
+      this.endgameEvent.emit(new EndGame(this.currentAnswerDisplayed, this.sentences.length, this.LOSE, this.SAD_EMOJI, true))
     } else if (this.currentAnswerDisplayed === this.sentences.length) {
-      this.endgameEvent.emit(new EndGame(this.WIN, this.HAPPY_EMOJI, true))
+      this.endgameEvent.emit(new EndGame(this.currentAnswerDisplayed, this.sentences.length, this.WIN, this.HAPPY_EMOJI, true))
     } else {
       return
     }
