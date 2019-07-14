@@ -1,4 +1,11 @@
 <app-top></app-top>
-<div *ngIf="!gameHasEnded">
+<div *ngIf="!getGameHasEnded; else endGameTemplate">
     <app-painel (endgameEvent)="endgameEvent($event)"></app-painel>
 </div>
+<ng-template #endGameTemplate>
+    <div class="container d-flex flex-column justify-content-center align-items-center">
+        <h2 class="text-white default-margin">{{ getMessage }}</h2>
+        <p class="text-white default-margin font-size-3 rotation-90">{{ getEmoji }}</p>
+        <button type="button" class="btn btn-lg btn-block btn-outline-danger">RESTART GAME</button>
+    </div>
+</ng-template>

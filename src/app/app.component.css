@@ -1,0 +1,11 @@
+.rotation-90{
+    transform: rotate(90deg);
+}
+
+.default-margin{
+    margin: 1rem;
+}
+
+.font-size-3{
+    font-size: 3rem;
+}
