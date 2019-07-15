@@ -15,6 +15,7 @@ export class PainelComponent implements OnInit , OnDestroy{
 
   public readonly INSTRUCTION:string = "Traduza a frase abaixo"
 
+  public progressIndicator:number
   public currentAnswerDisplayed:number
 
   public sentences:Array<Sentence>
@@ -30,7 +31,6 @@ export class PainelComponent implements OnInit , OnDestroy{
 
   private answer:string
 
-  private progressIndicator:number
   private wrongAnswerCounter:number
 
   constructor() { }
