@@ -31,8 +31,23 @@ describe('workspace-project App', () => {
   it('should display empty heart after wrong answer', () => {
     element(by.css('button#verify-button')).click();
     element(by.css('app-modal div.modal-footer button')).click();
-    element(by.css('app-trys img[src=\'../../assets/coracao_vazio.png\']')).isPresent().then(value => {
+    element(by.css('app-trys img[src*=\'coracao_vazio.png\']')).isPresent().then(value => {
       expect(value).toBeTruthy();
+    });
+  });
+
+  it('should display correct answer dialog message after button click with correct answer in text area', ()  => {
+    element(by.id('answerField')).sendKeys('Eu gosto de aprender');
+    element(by.css('button#verify-button')).click();
+    element(by.css('app-modal div.modal-body p')).getText().then(text => {
+      expect(text).toEqual('A resposta está correta!');
+    });
+    element(by.css('app-modal div.modal-footer button')).click();
+    element.all(by.css('app-trys img[src*=\'coracao_cheio.png\']')).count().then(hearts => {
+      expect(hearts).toBe(3);
+    });
+    element(by.css('app-progress div#progress-bar')).getText().then(text => {
+      expect(text).toEqual('20%');
     });
   });
 
