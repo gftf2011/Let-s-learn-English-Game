@@ -15,6 +15,19 @@ export class AppComponent {
   private emoji:string
 
   private gameHasEnded:boolean
+  private checkAnswer:boolean
+
+  public displayModal:string = 'none'
+
+  public modalMessage:string = ''
+  
+  public modalDisplayNone(modalDisplayNone:string) {
+    this.displayModal = modalDisplayNone
+  }
+
+  public alertCheckOfAnswer(checkAnswer: boolean) {
+    this.checkAnswer = checkAnswer
+  }
 
   public endgameEvent(endGame: EndGame): void {
     this.correctAnswers = endGame.getCorrectAnswer()
@@ -22,6 +35,15 @@ export class AppComponent {
     this.message = endGame.getMessage()
     this.emoji = endGame.getEmoji()
     this.gameHasEnded = endGame.getGameHasEnded()
+  }
+
+  public modalAttributes(modalAttributes: Array<string>): void {
+    this.displayModal = modalAttributes[0]
+    this.modalMessage = modalAttributes[1]
+  }
+
+  public get getCheckAnswer():boolean {
+    return this.checkAnswer
   }
 
   public get getCorrectAnswers():number {

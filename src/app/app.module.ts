@@ -6,6 +6,7 @@ import { TopComponent } from './top/top.component';
 import { PainelComponent } from './painel/painel.component';
 import { TrysComponent } from './trys/trys.component';
 import { ProgressComponent } from './progress/progress.component';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { ProgressComponent } from './progress/progress.component';
     TopComponent,
     PainelComponent,
     TrysComponent,
-    ProgressComponent
+    ProgressComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule

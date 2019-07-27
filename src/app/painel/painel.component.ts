@@ -24,6 +24,9 @@ export class PainelComponent implements OnInit , OnDestroy{
   @Output()
   public endgameEvent: EventEmitter<EndGame> = new EventEmitter()
 
+  @Output()
+  public modalAttributes: EventEmitter<Array<string>> = new EventEmitter()
+
   private readonly LOSE:string = "Você perdeu!"
   private readonly WIN:string = "Você ganhou!"
   private readonly HAPPY_EMOJI:string = ":)"
@@ -51,12 +54,12 @@ export class PainelComponent implements OnInit , OnDestroy{
   public checkAnswer(): void {
     try {
       if (StringUtil.toPascalCase(this.answer) == this.sentences[this.currentAnswerDisplayed].getSentencePt()) {
-        alert("A resposta está correta!")
+        this.modalAttributes.emit(['block', 'A resposta está correta!'])
         this.progressIndicator += (100 / (this.sentences.length))
         this.currentAnswerDisplayed++
         this.eraseAnswer()
       } else {
-        alert("A resposta está errada!")
+        this.modalAttributes.emit(['block', 'A resposta está errada!'])
         this.hearts[this.wrongAnswerCounter].setHeart(false)
         this.wrongAnswerCounter++
       }

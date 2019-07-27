@@ -1,0 +1,20 @@
+.modal-background {
+    padding-top: 25px;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    z-index: 1;
+}
+
+.container {
+    border-radius: 5px; 
+}
+
+.modal-header {
+    border-bottom: 1px solid #dc3545;
+}
+
+.modal-footer {
+    border-top: 1px solid #dc3545;
+}
