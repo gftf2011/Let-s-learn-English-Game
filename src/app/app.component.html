@@ -1,6 +1,7 @@
+<app-modal [displayModal]="displayModal" [modalMessage]="modalMessage" (modalDisplayNone)="modalDisplayNone($event)"></app-modal>
 <app-top></app-top>
 <div *ngIf="!getGameHasEnded; else endGameTemplate">
-    <app-painel (endgameEvent)="endgameEvent($event)"></app-painel>
+    <app-painel (endgameEvent)="endgameEvent($event)" (modalAttributes)="modalAttributes($event)" (alertCheckOfAnswer)="alertCheckOfAnswer($event)"></app-painel>
 </div>
 <ng-template #endGameTemplate>
     <div class="row">

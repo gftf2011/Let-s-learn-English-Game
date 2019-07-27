@@ -9,3 +9,11 @@
 .font-size-3{
     font-size: 3rem;
 }
+
+/* app-modal {
+    display: block;
+    height: 100%;;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+} */
