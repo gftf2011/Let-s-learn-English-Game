@@ -51,4 +51,28 @@ describe('workspace-project App', () => {
     });
   });
 
+  it('should display \'you lose\' message with sad emoji after three wrong answers', () => {
+    element(by.css('button#verify-button')).click();
+    element(by.css('app-modal div.modal-footer button')).click();
+    element.all(by.css('app-trys img[src*=\'coracao_vazio.png\']')).count().then(value => {
+      expect(value).toBe(1);
+    });
+    element(by.css('button#verify-button')).click();
+    element(by.css('app-modal div.modal-footer button')).click();
+    element.all(by.css('app-trys img[src*=\'coracao_vazio.png\']')).count().then(value => {
+      expect(value).toBe(2);
+    });
+    element(by.css('button#verify-button')).click();
+    element(by.css('app-modal div.modal-footer button')).click();
+    element(by.css('app-trys')).isPresent().then(value => {
+      expect(value).toBeFalsy();
+    });
+    element(by.cssContainingText('h2.text-white', 'Você perdeu!')).getText().then(text => {
+      expect(text).toEqual('Você perdeu!');
+    });
+    element(by.cssContainingText('p', ':(')).getText().then(text => {
+      expect(text).toEqual(':(');
+    });
+  });
+
 });
