@@ -75,4 +75,46 @@ describe('workspace-project App', () => {
     });
   });
 
+  it('should display \'you won\' message with happy emoji after five correct answers', () => {
+    element(by.id('answerField')).sendKeys('Eu gosto de aprender');
+    element(by.css('button#verify-button')).click();
+    element(by.css('app-modal div.modal-body p')).getText().then(text => {
+      expect(text).toEqual('A resposta está correta!');
+    });
+    element(by.css('app-modal div.modal-footer button')).click();
+    element(by.id('answerField')).sendKeys('Eu assisto televisão');
+    element(by.css('button#verify-button')).click();
+    element(by.css('app-modal div.modal-body p')).getText().then(text => {
+      expect(text).toEqual('A resposta está correta!');
+    });
+    element(by.css('app-modal div.modal-footer button')).click();
+    element(by.id('answerField')).sendKeys('Como você está indo');
+    element(by.css('button#verify-button')).click();
+    element(by.css('app-modal div.modal-body p')).getText().then(text => {
+      expect(text).toEqual('A resposta está correta!');
+    });
+    element(by.css('app-modal div.modal-footer button')).click();
+    element(by.id('answerField')).sendKeys('O livro está sobre a mesa');
+    element(by.css('button#verify-button')).click();
+    element(by.css('app-modal div.modal-body p')).getText().then(text => {
+      expect(text).toEqual('A resposta está correta!');
+    });
+    element(by.css('app-modal div.modal-footer button')).click();
+    element(by.id('answerField')).sendKeys('O que é isto');
+    element(by.css('button#verify-button')).click();
+    element(by.css('app-modal div.modal-body p')).getText().then(text => {
+      expect(text).toEqual('A resposta está correta!');
+    });
+    element(by.css('app-modal div.modal-footer button')).click();
+    element(by.cssContainingText('h2.text-white', 'Você ganhou!')).getText().then(text => {
+      expect(text).toEqual('Você ganhou!');
+    });
+    element(by.cssContainingText('p', ':)')).getText().then(text => {
+      expect(text).toEqual(':)');
+    });
+    element(by.css('p.text-white > span.text-danger')).getText().then(text => {
+      expect(text).toEqual('5');
+    });
+  });
+
 });
