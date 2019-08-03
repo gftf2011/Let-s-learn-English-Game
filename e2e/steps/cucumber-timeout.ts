@@ -1,0 +1,3 @@
+var setDefaultTimeout = require('cucumber').setDefaultTimeout;
+setDefaultTimeout(60 * 1000);
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY3VjdW1iZXItdGltZW91dC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uL3N0ZXBzL2N1Y3VtYmVyLXRpbWVvdXQudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUssSUFBQSx5REFBaUIsQ0FBd0I7QUFFOUMsaUJBQWlCLENBQUMsRUFBRSxHQUFHLElBQUksQ0FBQyxDQUFDIn0=
