@@ -7,8 +7,8 @@
     <div class="row">
         <div class="col-md-8 col-sm-6">
             <div class="container d-flex flex-column justify-content-center align-items-center">
-                <h2 class="text-white default-margin">{{ getMessage }}</h2>
-                <p class="text-white default-margin font-size-3 rotation-90">{{ getEmoji }}</p>
+                <h2 id="message" class="text-white default-margin">{{ getMessage }}</h2>
+                <p id="emoji" class="text-white default-margin font-size-3 rotation-90">{{ getEmoji }}</p>
                 <button type="button" class="btn btn-lg btn-block btn-outline-danger" (click)="resetGame()">RESTART GAME</button>
             </div>
         </div>

@@ -1,119 +1,125 @@
-import { by, element, ElementFinder, browser, WebDriver } from 'protractor';
+import { App } from './app.po';
+import { async } from 'q';
 
 describe('workspace-project App', () => {
-  
+  let appPage:App;
+
+  const SAD_EMOJI: string = ":(";
+  const HAPPY_EMOJI: string = ":)";
+  const YOU_LOSE: string = "Você perdeu!";
+  const YOU_WIN: string = "Você ganhou!";
   const WRONG_ANSWER: string = "A resposta está errada!";
+  const CORRECT_ANSWER: string = "A resposta está correta!";
+  
+  const PROGRESS_BAR: Array<string> = [
+    "0%",
+    "20%",
+    "40%",
+    "60%",
+    "80%"
+  ];
+  const ANSWERS: Array<string> = [
+    "Eu gosto de aprender",
+    "Eu assisto televisão",
+    "Como você está indo",
+    "O livro está sobre a mesa",
+    "O que é isto"
+  ];
 
-  beforeEach(() => {
-    browser.waitForAngularEnabled(true);
-    browser.get('/');
+  beforeAll(() => {
+    appPage = new App();
   });
 
-  it('should display Top Component text', () => {
-    element(by.css('app-top span')).getText().then(( title ) => {
-      expect(title).toEqual("Let's learn English!");
+  beforeEach( async () => {
+    await appPage.prepareBrowser();
+  });
+
+  it('should display Top Component text', async () => {
+    await appPage.getTitle().then(text => {
+      expect(text).toEqual("Let's learn English!");
     });
   });
 
-  it('should \'div.modal-backgroung\' from modal be invisible with class \'.none\' when game starts', () => {
-    element(by.css('app-modal > div.modal-background')).getCssValue('display').then(value => {
-      expect(value).toEqual('none');
+  it('should \'div.modal-backgroung\' from modal be invisible with class \'.none\' when game starts', async () => {
+    await appPage.getModalBackgroundDisplayProperty().then(value => {
+      expect(value).toEqual("none");
     });
   });
 
-  it('should display wrong answer dialog message by click button', () => {
-    element(by.css('button#verify-button')).click();
-    element(by.css('app-modal div.modal-body p')).getText().then(text => {
-      expect(text).toEqual('A resposta está errada!');
+  it('should display wrong answer dialog message by click button', async () => {
+    await appPage.clickVerifyButton();
+    await appPage.getModalBodyText().then(text => {
+      expect(text).toEqual(WRONG_ANSWER);
     });
   });
 
-  it('should display empty heart after wrong answer', () => {
-    element(by.css('button#verify-button')).click();
-    element(by.css('app-modal div.modal-footer button')).click();
-    element(by.css('app-trys img[src*=\'coracao_vazio.png\']')).isPresent().then(value => {
+  it('should display empty heart after wrong answer', async () => {
+    await appPage.clickVerifyButton();
+    await appPage.clickModalFooterButton();
+    await appPage.isEmptyHeartPresent(0).then(value => {
       expect(value).toBeTruthy();
     });
   });
 
-  it('should display correct answer dialog message after button click with correct answer in text area', ()  => {
-    element(by.id('answerField')).sendKeys('Eu gosto de aprender');
-    element(by.css('button#verify-button')).click();
-    element(by.css('app-modal div.modal-body p')).getText().then(text => {
-      expect(text).toEqual('A resposta está correta!');
+  it('should display correct answer dialog message after button click with correct answer in text area', async  ()  => {
+    await appPage.sendKeysToAnswerField(ANSWERS[0]);
+    await appPage.clickVerifyButton();
+    await appPage.getModalBodyText().then(text => {
+      expect(text).toEqual(CORRECT_ANSWER);
     });
-    element(by.css('app-modal div.modal-footer button')).click();
-    element.all(by.css('app-trys img[src*=\'coracao_cheio.png\']')).count().then(hearts => {
-      expect(hearts).toBe(3);
-    });
-    element(by.css('app-progress div#progress-bar')).getText().then(text => {
-      expect(text).toEqual('20%');
-    });
-  });
-
-  it('should display \'you lose\' message with sad emoji after three wrong answers', () => {
-    element(by.css('button#verify-button')).click();
-    element(by.css('app-modal div.modal-footer button')).click();
-    element.all(by.css('app-trys img[src*=\'coracao_vazio.png\']')).count().then(value => {
-      expect(value).toBe(1);
-    });
-    element(by.css('button#verify-button')).click();
-    element(by.css('app-modal div.modal-footer button')).click();
-    element.all(by.css('app-trys img[src*=\'coracao_vazio.png\']')).count().then(value => {
-      expect(value).toBe(2);
-    });
-    element(by.css('button#verify-button')).click();
-    element(by.css('app-modal div.modal-footer button')).click();
-    element(by.css('app-trys')).isPresent().then(value => {
-      expect(value).toBeFalsy();
-    });
-    element(by.cssContainingText('h2.text-white', 'Você perdeu!')).getText().then(text => {
-      expect(text).toEqual('Você perdeu!');
-    });
-    element(by.cssContainingText('p', ':(')).getText().then(text => {
-      expect(text).toEqual(':(');
+    await appPage.clickModalFooterButton();
+    for (let i = 0; i < 3; i++) {
+      await appPage.isFullHeartPresent(i).then(value => {
+        expect(value).toBeTruthy();
+      });
+    }
+    await appPage.getProgressBarText().then(text => {
+      expect(text).toEqual(PROGRESS_BAR[1]);
     });
   });
 
-  it('should display \'you won\' message with happy emoji after five correct answers', () => {
-    element(by.id('answerField')).sendKeys('Eu gosto de aprender');
-    element(by.css('button#verify-button')).click();
-    element(by.css('app-modal div.modal-body p')).getText().then(text => {
-      expect(text).toEqual('A resposta está correta!');
+  it('should display \'you lose\' message with sad emoji after three wrong answers', async () => {
+    for (let i = 0; i < 3; i++) {
+      await appPage.clickVerifyButton();
+      await appPage.clickModalFooterButton();
+      if (i != 2) {
+        await appPage.isEmptyHeartPresent(i).then(value => {
+          expect(value).toBeTruthy();
+        });
+      } else {
+        await appPage.isTrysPresent().then(value => {
+          expect(value).toBeFalsy();
+        });
+      }
+    }
+    await appPage.getMessage().then(text => {
+      expect(text).toEqual(YOU_LOSE);
     });
-    element(by.css('app-modal div.modal-footer button')).click();
-    element(by.id('answerField')).sendKeys('Eu assisto televisão');
-    element(by.css('button#verify-button')).click();
-    element(by.css('app-modal div.modal-body p')).getText().then(text => {
-      expect(text).toEqual('A resposta está correta!');
+    await appPage.getEmoji().then(text => {
+      expect(text).toEqual(SAD_EMOJI);
     });
-    element(by.css('app-modal div.modal-footer button')).click();
-    element(by.id('answerField')).sendKeys('Como você está indo');
-    element(by.css('button#verify-button')).click();
-    element(by.css('app-modal div.modal-body p')).getText().then(text => {
-      expect(text).toEqual('A resposta está correta!');
+  });
+
+  it('should display \'you won\' message with happy emoji after five correct answers', async () => {
+    for (let i = 0; i < ANSWERS.length; i++) {
+      await appPage.getProgressBarText().then(text => {
+        expect(text).toBe(PROGRESS_BAR[i]);
+      });
+      await appPage.sendKeysToAnswerField(ANSWERS[i]);
+      await appPage.clickVerifyButton();
+      await appPage.getModalBodyText().then(text => {
+        expect(text).toEqual(CORRECT_ANSWER);
+      });
+      await appPage.clickModalFooterButton();
+    }
+    await appPage.getMessage().then(text => {
+      expect(text).toEqual(YOU_WIN);
     });
-    element(by.css('app-modal div.modal-footer button')).click();
-    element(by.id('answerField')).sendKeys('O livro está sobre a mesa');
-    element(by.css('button#verify-button')).click();
-    element(by.css('app-modal div.modal-body p')).getText().then(text => {
-      expect(text).toEqual('A resposta está correta!');
+    await appPage.getEmoji().then(text => {
+      expect(text).toEqual(HAPPY_EMOJI);
     });
-    element(by.css('app-modal div.modal-footer button')).click();
-    element(by.id('answerField')).sendKeys('O que é isto');
-    element(by.css('button#verify-button')).click();
-    element(by.css('app-modal div.modal-body p')).getText().then(text => {
-      expect(text).toEqual('A resposta está correta!');
-    });
-    element(by.css('app-modal div.modal-footer button')).click();
-    element(by.cssContainingText('h2.text-white', 'Você ganhou!')).getText().then(text => {
-      expect(text).toEqual('Você ganhou!');
-    });
-    element(by.cssContainingText('p', ':)')).getText().then(text => {
-      expect(text).toEqual(':)');
-    });
-    element(by.css('p.text-white > span.text-danger')).getText().then(text => {
-      expect(text).toEqual('5');
+    await appPage.getScore().then(value => {
+      expect(value).toBe('5');
     });
   });
 
