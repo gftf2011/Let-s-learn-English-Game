@@ -31,6 +31,11 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 Run `npm run cucumber-e2e` to execute the end-to-end tests via [Cucumber](https://cucumber.io/).
 Before running the command above, run the command `ng server`!
 
+## SPECS with protractor-jasmine2-reporter
+
+Esta é uma ferramenta que permite a criação de um html para os testes automatizados!
+Para rodar executar o comando `npm run reporter-e2e`!
+
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
